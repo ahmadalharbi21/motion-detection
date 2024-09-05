@@ -45,7 +45,7 @@ for i, frame in enumerate(videodata):  # Add a delay to reduce the frame rate
     previous_frame = frame
 
     # Exit the loop when the user presses 'q'
-    if cv2.waitKey(1) & 0xFF == ord('x'):
+    if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
 # Close all OpenCV windows
