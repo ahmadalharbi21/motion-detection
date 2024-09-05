@@ -1,7 +1,7 @@
 import cv2
 import time
 import skvideo.io
-#this is for tesing branch merge
+#devergence History/for master branch
 # Load the video file
 videodata = skvideo.io.vread("Typical junior tennis hook (forgot camera was up) ITA Summer Circuit UTR.mp4")
 print(videodata.shape)
