@@ -1,18 +1,24 @@
 import cv2
 import time
 import skvideo.io
-#devergence History/for master branch
+
 # Load the video file
-videodata = skvideo.io.vread("Typical junior tennis hook (forgot camera was up) ITA Summer Circuit UTR.mp4")
+videodata = skvideo.io.vread("tennis_demo.mp4")
 print(videodata.shape)
 
- 
+# Set up VideoWriter to save the video
+fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # Specify the codec
+fps = 30  # Frames per second
+height, width = videodata.shape[1], videodata.shape[2]
+output_file = cv2.VideoWriter('output_motion_detected.mp4', fourcc, fps, (width, height))
+
 # Initialize variables for storing the previous frame
 previous_frame = None
 
 # Iterate through each frame in the video
-for i, frame in enumerate(videodata):  # Add a delay to reduce the frame rate
+for i, frame in enumerate(videodata):
     time.sleep(0.030)
+
     # If this is the first frame, initialize the previous_frame
     if previous_frame is None:
         previous_frame = frame
@@ -38,9 +44,8 @@ for i, frame in enumerate(videodata):  # Add a delay to reduce the frame rate
         (x, y, w, h) = cv2.boundingRect(contour)
         cv2.rectangle(output_frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
-    # Display the resulting frame with bounding boxes
-    cv2.imshow('Motion Detection', output_frame)
-    cv2.imshow("White and Black Pixels", thresh)
+    # Write the processed frame to the output video
+    output_file.write(output_frame)
 
     # Update the previous frame to the current frame
     previous_frame = frame
@@ -49,6 +54,6 @@ for i, frame in enumerate(videodata):  # Add a delay to reduce the frame rate
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
-# Close all OpenCV windows
+# Release the video writer and close all windows
+output_file.release()
 cv2.destroyAllWindows()
-#test_for_git
